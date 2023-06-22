@@ -4,7 +4,9 @@ export interface IHotel {
   description: string;
   address1: string;
   address2: string;
-  images: Array<string>;
+  images: Array<{
+    url: string;
+  }>;
   starRating: number;
 }
 
