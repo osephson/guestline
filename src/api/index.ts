@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { HotelList } from "../interfaces/hotels";
+import { IHotelList } from "../interfaces/hotels";
 
 const API_BASE_URL = "https://obmng.dbm.guestline.net/api/";
 
@@ -10,7 +10,7 @@ axios.interceptors.request.use((config) => ({
 }));
 
 const fetchHotels = (collectionId: String) =>
-  axios.get<HotelList>("hotels", {
+  axios.get<IHotelList>("hotels", {
     params: {
       "collection-id": collectionId,
     },

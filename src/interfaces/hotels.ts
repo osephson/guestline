@@ -1,4 +1,4 @@
-export interface Hotel {
+export interface IHotel {
   id: String;
   name: String;
   description: String;
@@ -8,4 +8,4 @@ export interface Hotel {
   starRating: Number;
 }
 
-export interface HotelList extends Array<Hotel> {}
+export interface IHotelList extends Array<IHotel> {}
