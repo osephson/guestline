@@ -1,11 +1,11 @@
 export interface IHotel {
-  id: String;
-  name: String;
-  description: String;
-  address1: String;
-  address2: String;
-  images: Array<String>;
-  starRating: Number;
+  id: string;
+  name: string;
+  description: string;
+  address1: string;
+  address2: string;
+  images: Array<string>;
+  starRating: number;
 }
 
 export interface IHotelList extends Array<IHotel> {}
