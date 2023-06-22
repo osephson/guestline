@@ -8,4 +8,4 @@ export interface Hotel {
   starRating: Number;
 }
 
-export type HotelList = Array<Hotel>;
+export interface HotelList extends Array<Hotel> {}
