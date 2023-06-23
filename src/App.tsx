@@ -8,10 +8,12 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 import HotelList from "./containers/HotelList";
+import Header from "./containers/Header";
 
 function App() {
   return (
     <div>
+      <Header />
       <HotelList />
     </div>
   );
