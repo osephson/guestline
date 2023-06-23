@@ -9,7 +9,12 @@ const Hotel = ({ data }: { data: IHotel }) => {
   return (
     <Grid container columnSpacing={2} sx={{ p: 2 }}>
       <Grid item xs={3}>
-        <Carousel indicators={false} sx={{ maxWidth: 200 }}>
+        <Carousel
+          indicators={false}
+          sx={{ maxWidth: 200 }}
+          autoPlay={false}
+          navButtonsAlwaysVisible
+        >
           {images.map((img, index) => (
             <img
               key={index}
