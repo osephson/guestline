@@ -9,17 +9,16 @@ const LIMIT_SHOW = 3;
 const HotelItem = ({ data }: { data: IHotel }) => {
   const { rooms } = data;
   const roomCount = rooms?.length ?? 0;
+  const canToggleShowMore = roomCount > LIMIT_SHOW;
 
-  const [showMore, setShowMore] = useState<"none" | true | false>(
-    roomCount > LIMIT_SHOW ? true : "none"
-  );
+  const [showMore, setShowMore] = useState(roomCount > LIMIT_SHOW);
+
   const showingRooms = rooms?.slice(
     0,
     showMore === true ? LIMIT_SHOW : roomCount
   );
 
   const onShowMoreToggle = () => {
-    if (showMore === "none") return;
     setShowMore(!showMore);
   };
 
@@ -35,7 +34,7 @@ const HotelItem = ({ data }: { data: IHotel }) => {
                 <Room data={r} />
               </Box>
             ))}
-            {showMore !== "none" && (
+            {canToggleShowMore && (
               <Link
                 component={"button"}
                 variant="subtitle1"
@@ -51,6 +50,7 @@ const HotelItem = ({ data }: { data: IHotel }) => {
           <Typography
             variant="h6"
             textAlign={"center"}
+            pb={2}
           >{`No room that meets the filter`}</Typography>
         )}
       </Stack>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Container, Stack, Grid } from "@mui/material";
 
 import { IHotelList, IFilter } from "../interfaces/hotels";
@@ -16,6 +16,23 @@ const HotelList = () => {
     maxAdults: 0,
     maxChildren: 0,
   });
+
+  const filteredHotels = useMemo(() => {
+    const filtered: IHotelList = [];
+    hotels.forEach((h) => {
+      if (h.starRating < filter.rating) return;
+      const rooms = h.rooms?.filter(
+        (r) =>
+          r.occupancy.maxAdults >= filter.maxAdults &&
+          r.occupancy.maxChildren >= filter.maxChildren
+      );
+      filtered.push({
+        ...h,
+        rooms,
+      });
+    });
+    return filtered;
+  }, [hotels, filter]);
 
   useEffect(() => {
     (async function () {
@@ -38,10 +55,10 @@ const HotelList = () => {
   return (
     <Stack marginTop={-4}>
       <Filter data={filter} onChange={setFilter} />
-      <Container maxWidth="md" sx={{ mt: 3 }}>
+      <Container maxWidth="md" sx={{ my: 3 }}>
         <Grid container rowSpacing={2}>
-          {!!hotels.length &&
-            hotels.map((h, index) => (
+          {!!filteredHotels.length &&
+            filteredHotels.map((h, index) => (
               <Grid key={index} item xs={12}>
                 <HotelItem data={h} />
               </Grid>
