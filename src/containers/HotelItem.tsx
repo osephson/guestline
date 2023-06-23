@@ -1,4 +1,4 @@
-import { Paper, Stack, Divider, Typography, Link } from "@mui/material";
+import { Paper, Stack, Divider, Typography, Link, Box } from "@mui/material";
 
 import { Hotel, Room } from "../components";
 import { IHotel } from "../interfaces/hotels";
@@ -30,10 +30,10 @@ const HotelItem = ({ data }: { data: IHotel }) => {
         {!!roomCount ? (
           <>
             {showingRooms?.map((r, index) => (
-              <>
+              <Box key={index}>
                 <Divider />
-                <Room key={index} data={r} />
-              </>
+                <Room data={r} />
+              </Box>
             ))}
             {showMore !== "none" && (
               <Link
