@@ -32,3 +32,11 @@ export interface IRoomsResponse {
 }
 
 export interface IHotelList extends Array<IHotel> {}
+
+export interface IFilter {
+  rating: number;
+  maxAdults: number;
+  maxChildren: number;
+}
+
+export type Occupancy = "adults" | "children";

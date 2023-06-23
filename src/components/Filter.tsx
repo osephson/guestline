@@ -1,11 +1,30 @@
 import { Rating, Container } from "@mui/material";
 import UpDown from "./UpDown";
-import { useState } from "react";
 
-const Filter = () => {
-  const [rating, setRating] = useState(1);
-  const [maxAdults, setMaxAdults] = useState(0);
-  const [maxChildren, setMaxChildren] = useState(0);
+import { IFilter, Occupancy } from "../interfaces/hotels";
+
+export interface IFilterProps {
+  data: IFilter;
+  onChange: (filter: IFilter) => void;
+}
+
+const Filter = ({ data, onChange }: IFilterProps) => {
+  const onChangeRating = (
+    _: React.SyntheticEvent<Element, Event>,
+    v: number | null
+  ) => {
+    onChange({
+      ...data,
+      rating: v ?? data.rating,
+    });
+  };
+
+  const onChangeOccupancy = (type: Occupancy) => (v: number) => {
+    onChange({
+      ...data,
+      [type === "adults" ? "maxAdults" : "maxChildren"]: v,
+    });
+  };
 
   return (
     <Container
@@ -20,22 +39,18 @@ const Filter = () => {
         backgroundColor: "#eafcff",
       }}
     >
-      <Rating
-        value={rating}
-        onChange={(e, v) => setRating(v ?? 0)}
-        size="large"
-      />
+      <Rating value={data.rating} onChange={onChangeRating} size="large" />
       <UpDown
         label="Adults: "
         lowerLimit={0}
-        value={maxAdults}
-        onChange={setMaxAdults}
+        value={data.maxAdults}
+        onChange={onChangeOccupancy("adults")}
       />
       <UpDown
         label="Children: "
         lowerLimit={0}
-        value={maxChildren}
-        onChange={setMaxChildren}
+        value={data.maxChildren}
+        onChange={onChangeOccupancy("children")}
       />
     </Container>
   );

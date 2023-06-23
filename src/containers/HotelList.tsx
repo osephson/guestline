@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container, Stack, Grid } from "@mui/material";
 
-import { IHotelList } from "../interfaces/hotels";
+import { IHotelList, IFilter } from "../interfaces/hotels";
 import { fetchHotels, fetchRooms } from "../api";
 
 import HotelItem from "./HotelItem";
@@ -11,6 +11,11 @@ const COLLECTION_ID = "OBMNG";
 
 const HotelList = () => {
   const [hotels, setHotels] = useState<IHotelList>([]);
+  const [filter, setFilter] = useState<IFilter>({
+    rating: 1,
+    maxAdults: 0,
+    maxChildren: 0,
+  });
 
   useEffect(() => {
     (async function () {
@@ -32,7 +37,7 @@ const HotelList = () => {
 
   return (
     <Stack marginTop={-4}>
-      <Filter />
+      <Filter data={filter} onChange={setFilter} />
       <Container maxWidth="md" sx={{ mt: 3 }}>
         <Grid container rowSpacing={2}>
           {!!hotels.length &&
