@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Grid } from "@mui/material";
+import { Container, Stack, Grid } from "@mui/material";
 
 import { IHotelList } from "../interfaces/hotels";
 import { fetchHotels, fetchRooms } from "../api";
@@ -31,17 +31,19 @@ const HotelList = () => {
   }, []);
 
   return (
-    <Container maxWidth="md">
+    <Stack marginTop={-4}>
       <Filter />
-      <Grid container rowSpacing={2}>
-        {!!hotels.length &&
-          hotels.map((h, index) => (
-            <Grid key={index} item xs={12}>
-              <HotelItem data={h} />
-            </Grid>
-          ))}
-      </Grid>
-    </Container>
+      <Container maxWidth="md" sx={{ mt: 3 }}>
+        <Grid container rowSpacing={2}>
+          {!!hotels.length &&
+            hotels.map((h, index) => (
+              <Grid key={index} item xs={12}>
+                <HotelItem data={h} />
+              </Grid>
+            ))}
+        </Grid>
+      </Container>
+    </Stack>
   );
 };
 

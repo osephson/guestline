@@ -30,11 +30,11 @@ const UpDown = ({
   };
 
   return (
-    <Box display={"flex"} alignItems={"center"}>
+    <Box display={"flex"} alignItems={"baseline"}>
       {!!label && <Typography component={"span"}>{label}</Typography>}
       <Link
         component={"button"}
-        sx={{ px: "3px", fontWeight: "bold" }}
+        sx={{ mx: "3px", fontWeight: "bold" }}
         underline="none"
         onClick={onAction("up")}
         disabled={reachedUpperLimit}
@@ -44,7 +44,7 @@ const UpDown = ({
       <Typography component={"span"}>{value}</Typography>
       <Link
         component={"button"}
-        sx={{ px: "3px", fontWeight: "bold" }}
+        sx={{ mx: "3px", fontWeight: "bold" }}
         underline="none"
         onClick={onAction("down")}
         disabled={reachedLowerLimit}

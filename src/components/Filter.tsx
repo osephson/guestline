@@ -3,7 +3,7 @@ import UpDown from "./UpDown";
 import { useState } from "react";
 
 const Filter = () => {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(1);
   const [maxAdults, setMaxAdults] = useState(0);
   const [maxChildren, setMaxChildren] = useState(0);
 
@@ -17,6 +17,7 @@ const Filter = () => {
         flexWrap: "wrap",
         border: "2px solid black",
         py: 1,
+        backgroundColor: "#eafcff",
       }}
     >
       <Rating
