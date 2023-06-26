@@ -58,7 +58,6 @@ const HotelList = () => {
         setHotels(hotels);
         setErrorMessage("");
       } catch (e) {
-        console.log({ e });
         setErrorMessage("Sorry but unable to load hotels and their rooms!");
       } finally {
         setLoading(false);
@@ -75,7 +74,7 @@ const HotelList = () => {
             Loading...
           </Typography>
         ) : errorMessage ? (
-          <Typography variant="h3" align="center" pt={3}>
+          <Typography role="error-alert" variant="h3" align="center" pt={3}>
             {errorMessage}
           </Typography>
         ) : (
