@@ -1,13 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
-import { Container, Stack, Grid } from "@mui/material";
+import { Container, Stack, Grid, Typography } from "@mui/material";
 
 import { IHotelList, IFilter } from "../interfaces/hotels";
 import { fetchHotels, fetchRooms } from "../api";
 
 import HotelItem from "./HotelItem";
 import { Filter } from "../components";
+import config from "../config";
 
-const COLLECTION_ID = "OBMNG";
+const cf = config();
 
 const HotelList = () => {
   const [hotels, setHotels] = useState<IHotelList>([]);
@@ -39,11 +40,11 @@ const HotelList = () => {
     setLoading(true);
 
     (async function () {
-      const response = await fetchHotels(COLLECTION_ID);
+      const response = await fetchHotels(cf.collectionId);
       const hotels = response.data;
 
       const fetchRoomsPromises = hotels.map((h) =>
-        fetchRooms(COLLECTION_ID, h.id)
+        fetchRooms(cf.collectionId, h.id)
       );
       const roomsResponse = await Promise.all(fetchRoomsPromises);
 
@@ -63,14 +64,14 @@ const HotelList = () => {
         {loading ? (
           <Typography align="center">Loading...</Typography>
         ) : (
-        <Grid container rowSpacing={2}>
-          {!!filteredHotels.length &&
-            filteredHotels.map((h, index) => (
-              <Grid key={index} item xs={12}>
-                <HotelItem data={h} />
-              </Grid>
-            ))}
-        </Grid>
+          <Grid container rowSpacing={2}>
+            {!!filteredHotels.length &&
+              filteredHotels.map((h, index) => (
+                <Grid key={index} item xs={12}>
+                  <HotelItem data={h} />
+                </Grid>
+              ))}
+          </Grid>
         )}
       </Container>
     </Stack>
