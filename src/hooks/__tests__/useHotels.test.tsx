@@ -1,8 +1,8 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { renderHook, act } from "@testing-library/react";
 import axios from "axios";
 
-import HotelList from "../HotelList";
 import { IHotel, IRoom } from "../../interfaces/hotels";
+import useHotels from "../hotels";
 
 jest.mock("axios");
 
@@ -58,7 +58,7 @@ const mockRooms: IRoom[] = [
 ];
 
 const mockAPIs = () => {
-  mockedAxios.get.mockImplementation((url) => {
+  mockedAxios.get.mockImplementation((url: string) => {
     if (url.includes("hotels")) {
       return Promise.resolve({
         data: mockHotels,
@@ -82,73 +82,37 @@ const mockAPIs = () => {
   });
 };
 
-test("render Hotel List", async () => {
+test("fetch hotels and their rooms", async () => {
   mockAPIs();
-  render(<HotelList />);
-  await waitFor(() => {
-    // Expect all hotel names are displayed
-    mockHotels.forEach((h) => {
-      expect(screen.getByText(h.name)).toBeInTheDocument();
-    });
+  const { result } = renderHook(useHotels);
 
-    // Expect all room names are displayed
-    mockRooms.forEach((r) => {
-      expect(screen.getByText(r.name)).toBeInTheDocument();
-    });
+  await act(async () => {
+    result.current.getHotelsAndRooms("randomCollectionId");
   });
+
+  expect(result.current.errorMessage).toBe("");
+  expect(result.current.hotels).toEqual([
+    {
+      ...fiveRatingHotel,
+      rooms: [mockRooms[0]],
+    },
+    {
+      ...twoRatingHotel,
+      rooms: [mockRooms[1]],
+    },
+  ]);
 });
 
-test("display error message if unable to fetch hotels", async () => {
+test("return error if the fetch request failed", async () => {
   mockedAxios.get.mockRejectedValueOnce({
     message: "unable to load",
   });
-  render(<HotelList />);
 
-  await waitFor(() => {
-    expect(screen.getByRole("error-alert")).toBeInTheDocument();
-  });
-});
-
-describe("filter Hotel list", () => {
-  beforeEach(() => {
-    mockAPIs();
+  const { result } = renderHook(useHotels);
+  await act(async () => {
+    result.current.getHotelsAndRooms("randomCollectionId");
   });
 
-  test("filter by Rating", async () => {
-    render(<HotelList />);
-    await waitFor(() => {
-      expect(axios.get).toHaveBeenCalledTimes(3);
-    });
-
-    fireEvent.click(screen.getByText("5 Stars"));
-
-    expect(screen.getByText(fiveRatingHotel.name)).toBeInTheDocument();
-    expect(screen.queryByText(twoRatingHotel.name)).not.toBeInTheDocument();
-  });
-
-  test("filter by number of max adults", async () => {
-    render(<HotelList />);
-    await waitFor(() => {
-      expect(axios.get).toHaveBeenCalledTimes(3);
-    });
-
-    // Click the "up" button of maxAdults' UpDown controller
-    fireEvent.click(screen.queryAllByRole("up")[0]);
-
-    expect(screen.getByText(mockRooms[0].name)).toBeInTheDocument();
-    expect(screen.queryByText(mockRooms[1].name)).not.toBeInTheDocument();
-  });
-
-  test("filter by number of max children", async () => {
-    render(<HotelList />);
-    await waitFor(() => {
-      expect(axios.get).toHaveBeenCalledTimes(3);
-    });
-
-    // Click the "up" button of maxAdults' UpDown controller
-    fireEvent.click(screen.queryAllByRole("up")[1]);
-
-    expect(screen.getByText(mockRooms[1].name)).toBeInTheDocument();
-    expect(screen.queryByText(mockRooms[0].name)).not.toBeInTheDocument();
-  });
+  expect(result.current.errorMessage).not.toBe("");
+  expect(result.current.hotels).toEqual([]);
 });
