@@ -1,5 +1,3 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 import "@fontsource/roboto/300.css";
@@ -12,7 +10,7 @@ import Header from "./containers/Header";
 
 function App() {
   return (
-    <div>
+    <div className="App">
       <Header />
       <HotelList />
     </div>

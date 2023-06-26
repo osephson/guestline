@@ -1,5 +1,5 @@
 const config = () => ({
-  collectionId: 'OBMNG'
-})
+  collectionId: process.env.REACT_APP_COLLECTION_ID || "OBMNG",
+});
 
-export default config
+export default config;
