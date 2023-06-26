@@ -86,8 +86,6 @@ test("render Hotel List", async () => {
   mockAPIs();
   render(<HotelList />);
   await waitFor(() => {
-    // expect(axios.get).toHaveBeenCalledTimes(3);
-
     // Expect all hotel names are displayed
     mockHotels.forEach((h) => {
       expect(screen.getByText(h.name)).toBeInTheDocument();
