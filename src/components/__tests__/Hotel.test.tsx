@@ -26,5 +26,5 @@ test("render Hotel info", () => {
   expect(screen.getByText(mock.name)).toBeInTheDocument();
   expect(screen.getByText(mock.address1)).toBeInTheDocument();
   expect(screen.getByText(mock.address2)).toBeInTheDocument();
-  expect(screen.getByRole("rating")).toBeInTheDocument();
+  expect(screen.getAllByTestId("StarIcon")).toHaveLength(mock.starRating);
 });
