@@ -35,7 +35,7 @@ const Hotel = ({ data }: { data: IHotel }) => {
         </Stack>
       </Grid>
       <Grid item xs={3} sx={{ textAlign: "right" }}>
-        <Rating value={starRating} readOnly size="large" />
+        <Rating role="rating" value={starRating} readOnly size="large" />
       </Grid>
     </Grid>
   );

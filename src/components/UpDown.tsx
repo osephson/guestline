@@ -1,7 +1,7 @@
 import { Link, Typography, Box } from "@mui/material";
 import { useMemo } from "react";
 
-interface IUpDownProps {
+export interface IUpDownProps {
   label: string;
   value: number;
   upperLimit?: number;
@@ -31,8 +31,13 @@ const UpDown = ({
 
   return (
     <Box display={"flex"} alignItems={"baseline"}>
-      {!!label && <Typography component={"span"}>{label}</Typography>}
+      {!!label && (
+        <Typography role={"text"} component={"span"}>
+          {label}
+        </Typography>
+      )}
       <Link
+        role="up"
         component={"button"}
         sx={{ mx: "3px", fontWeight: "bold" }}
         underline="none"
@@ -41,8 +46,11 @@ const UpDown = ({
       >
         {"+"}
       </Link>
-      <Typography component={"span"}>{value}</Typography>
+      <Typography role={"value"} component={"span"}>
+        {value}
+      </Typography>
       <Link
+        role="down"
         component={"button"}
         sx={{ mx: "3px", fontWeight: "bold" }}
         underline="none"

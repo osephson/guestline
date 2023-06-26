@@ -18,6 +18,7 @@ const HotelList = () => {
     maxChildren: 0,
   });
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const filteredHotels = useMemo(() => {
     const filtered: IHotelList = [];
@@ -38,22 +39,29 @@ const HotelList = () => {
 
   useEffect(() => {
     setLoading(true);
+    setErrorMessage("");
 
     (async function () {
-      const response = await fetchHotels(cf.collectionId);
-      const hotels = response.data;
+      try {
+        const response = await fetchHotels(cf.collectionId);
+        const hotels = response.data;
 
-      const fetchRoomsPromises = hotels.map((h) =>
-        fetchRooms(cf.collectionId, h.id)
-      );
-      const roomsResponse = await Promise.all(fetchRoomsPromises);
+        const fetchRoomsPromises = hotels.map((h) =>
+          fetchRooms(cf.collectionId, h.id)
+        );
+        const roomsResponse = await Promise.all(fetchRoomsPromises);
 
-      hotels.forEach((h, index) => {
-        h.rooms = roomsResponse[index].data.rooms;
-      });
+        hotels.forEach((h, index) => {
+          h.rooms = roomsResponse[index].data.rooms;
+        });
 
-      setHotels(hotels);
-      setLoading(false);
+        setHotels(hotels);
+        setErrorMessage("");
+      } catch (e) {
+        setErrorMessage("Sorry but unable to load hotels and their rooms!");
+      } finally {
+        setLoading(false);
+      }
     })();
   }, []);
 
@@ -62,7 +70,13 @@ const HotelList = () => {
       <Filter data={filter} onChange={setFilter} />
       <Container maxWidth="md" sx={{ my: 3 }}>
         {loading ? (
-          <Typography align="center">Loading...</Typography>
+          <Typography variant="h3" align="center">
+            Loading...
+          </Typography>
+        ) : errorMessage ? (
+          <Typography role="error-alert" variant="h3" align="center" pt={3}>
+            {errorMessage}
+          </Typography>
         ) : (
           <Grid container rowSpacing={2}>
             {!!filteredHotels.length &&

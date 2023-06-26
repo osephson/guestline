@@ -36,6 +36,7 @@ const HotelItem = ({ data }: { data: IHotel }) => {
             ))}
             {canToggleShowMore && (
               <Link
+                role="show-more"
                 component={"button"}
                 variant="subtitle1"
                 onClick={onShowMoreToggle}
@@ -48,6 +49,7 @@ const HotelItem = ({ data }: { data: IHotel }) => {
           </>
         ) : (
           <Typography
+            role="no-room-claim"
             variant="h6"
             textAlign={"center"}
             pb={2}
