@@ -16,6 +16,7 @@ const HotelList = () => {
     maxAdults: 0,
     maxChildren: 0,
   });
+  const [loading, setLoading] = useState(false);
 
   const filteredHotels = useMemo(() => {
     const filtered: IHotelList = [];
@@ -35,6 +36,8 @@ const HotelList = () => {
   }, [hotels, filter]);
 
   useEffect(() => {
+    setLoading(true);
+
     (async function () {
       const response = await fetchHotels(COLLECTION_ID);
       const hotels = response.data;
@@ -49,6 +52,7 @@ const HotelList = () => {
       });
 
       setHotels(hotels);
+      setLoading(false);
     })();
   }, []);
 
@@ -56,6 +60,9 @@ const HotelList = () => {
     <Stack marginTop={-4}>
       <Filter data={filter} onChange={setFilter} />
       <Container maxWidth="md" sx={{ my: 3 }}>
+        {loading ? (
+          <Typography align="center">Loading...</Typography>
+        ) : (
         <Grid container rowSpacing={2}>
           {!!filteredHotels.length &&
             filteredHotels.map((h, index) => (
@@ -64,6 +71,7 @@ const HotelList = () => {
               </Grid>
             ))}
         </Grid>
+        )}
       </Container>
     </Stack>
   );
