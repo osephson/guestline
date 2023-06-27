@@ -34,7 +34,7 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn run build`
+### `yarn build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -43,3 +43,9 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `yarn deploy`
+
+Deploys the app as a Github page. Once the script runs successfully, you can find the live app on [https://osephson.github.io/guestline](https://osephson.github.io/guestline) since `homepage` field of `package.json` is set.
+
+See the section about [Github Pages](https://create-react-app.dev/docs/deployment/#github-pages) for more information.
