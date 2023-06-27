@@ -38,7 +38,7 @@ const HotelList = () => {
 
   useEffect(() => {
     getHotelsAndRooms(cf.collectionId);
-  }, []);
+  }, [getHotelsAndRooms]);
 
   return (
     <Stack marginTop={-4}>
